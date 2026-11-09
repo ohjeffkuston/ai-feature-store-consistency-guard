@@ -1,0 +1,40 @@
+feature_view:
+  name: account_risk_v3
+  version: "3.2.0"
+  entity_key: account_id
+schemas:
+  offline: {account_id: string, transaction_velocity_1h: float64, account_age_days: int64}
+  online: {account_id: string, transaction_velocity_1h: float64, account_age_days: int64}
+transformation:
+  git_sha: 9c31d70a2f54
+offline:
+  point_in_time_join: true
+freshness:
+  max_age_minutes: 30
+  observed_age_minutes: 8
+online:
+  ttl_minutes: 120
+  p95_latency_slo_ms: 20
+  observed_p95_latency_ms: 11
+  availability_slo_percent: 99.9
+  observed_availability_percent: 99.97
+parity:
+  max_mismatch_percent: 0.5
+  observed_mismatch_percent: 0.08
+  minimum_sample_size: 1000
+  sample_size: 5000
+materialization:
+  interval_minutes: 10
+  backfill_idempotent: true
+security:
+  encryption_at_rest: true
+  encryption_in_transit: true
+  least_privilege_rbac: true
+  data_classification: confidential
+operations:
+  owner: ml-platform
+  runbook: https://runbooks.example/feature-parity
+  alert_route: pagerduty://ml-platform
+promotion:
+  human_approval_required: true
+  optional_ai_explanation: true

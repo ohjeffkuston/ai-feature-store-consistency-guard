@@ -1,0 +1,13 @@
+feature_view: {name: account_risk_v3, version: "3.2.0", entity_key: account_id}
+schemas:
+  offline: {account_id: string, transaction_velocity_1h: float64}
+  online: {account_id: string, transaction_velocity_1h: string}
+transformation: {git_sha: main}
+offline: {point_in_time_join: false}
+freshness: {max_age_minutes: 30, observed_age_minutes: 78}
+online: {ttl_minutes: 10, p95_latency_slo_ms: 20, observed_p95_latency_ms: 41, availability_slo_percent: 99.9, observed_availability_percent: 99.4}
+parity: {max_mismatch_percent: 0.5, observed_mismatch_percent: 7.2, minimum_sample_size: 1000, sample_size: 150}
+materialization: {interval_minutes: 60, backfill_idempotent: false}
+security: {encryption_at_rest: true, encryption_in_transit: false, least_privilege_rbac: false, data_classification: ""}
+operations: {owner: "", runbook: "", alert_route: ""}
+promotion: {human_approval_required: false}
